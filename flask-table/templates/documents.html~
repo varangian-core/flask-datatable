@@ -1,0 +1,207 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>DataTable Inline Editing using Python Flask MySQLdb jquery ajax and X-Editable</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>  
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
+		<link rel="stylesheet" href="../static/style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.js"></script>
+<script type="text/javascript" language="javascript">
+$(document).ready(function(){
+    var dataTable = $('#sample_data').DataTable();
+    $('#sample_data').editable({
+        container:'body',
+        selector:'td.form',
+        url:'/updateemployee',
+        title:'Form',
+        type:'POST',
+        validate:function(value){
+            if($.trim(value) == '')
+            {
+                return 'This field is required';
+            }
+        }
+    });
+ 
+    $('#sample_data').editable({
+        container:'body',
+        selector:'td.document',
+        url:'/updateemployee',
+        title:'Document',
+        type:'POST',
+        validate:function(value){
+            if($.trim(value) == '')
+            {
+                return 'This field is required';
+            }
+        }
+    });
+ 
+    $('#sample_data').editable({
+        container:'body',
+        selector:'td.revision',
+        url:'/updateemployee',
+        title:'Revision',
+        type:'POST',
+        validate:function(value){
+            if($.trim(value) == '')
+            {
+                return 'This field is required';
+            }
+        }
+    });
+    $('#sample_data').editable({
+        container:'body',
+        selector:'td.date_issue',
+        url:'/updateemployee',
+        title:'Date Issued',
+        type:'POST',
+        validate:function(value){
+            if($.trim(value) == '')
+            {
+                return 'This field is required';
+            }
+        }
+    });
+    $('#sample_data').editable({
+        container:'body',
+        selector:'td.date_rev',
+        url:'/updateemployee',
+        title:'Date Revised',
+        type:'POST',
+        validate:function(value){
+            if($.trim(value) == '')
+            {
+                return 'This field is required';
+            }
+        }
+    });
+    $('#sample_data').editable({
+        container:'body',
+        selector:'td.locations_status',
+        url:'/updateemployee',
+        title:'Location/Status',
+        type:'POST',
+        validate:function(value){
+            if($.trim(value) == '')
+            {
+                return 'This field is required';
+            }
+        }
+    });
+}); 
+</script>
+    </head>
+    <body>
+	<div id="multi-bg">
+<canvas id="myCanvas" width="800" height="200"></canvas>
+        <div class="container"><h3 align="center"></h3>
+            <div class="panel panel-default">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="sample_data" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>link</th>
+                                    <th>form</th>
+                                    <th>document</th>
+                                    <th>revision</th>
+                                    <th>date_issue</th>
+                                    <th>date_rev</th>
+                                    <th>locations_status</th>
+                                    <th>file name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in docs%}
+                                <tr>
+                                    <td data-name="link" class="link"
+										data-type="text"
+										data-pk="{{row[0]}}"> <button
+									class="btn"><i class="fa
+										fa-folder"></i></button> <a
+									href="http://cyberblok.com/api/download/{{row[0]}}" alt="{{row[0]}}" target= '_blank' >Link</a></td>
+                                    <td data-name="form" class="form" data-type="text" data-pk="{{row[1]}}">{{row[1]}}</td>
+                                    <td data-name="document" class="document" data-type="text" data-pk="{{row[2]}}">{{row[2]}}</td>
+                                    <td data-name="revision" class="revision" data-type="text" data-pk="{{row[3]}}">{{row[3]}}</td>
+                                    <td data-name="date_issue" class="date_issue" data-type="text" data-pk="{{row[4]}}">{{row[4]}}</td>
+                                    <td data-name="date_rev" class="date_rev" data-type="text" data-pk="{{row[5]}}">{{row[5]}}</td>
+                                    <td data-name="locations_status" class="locations_status" data-type="text" data-pk="{{row[6]}}">{{row[6]}}</td>
+                                    <td data-name="file_name" class="file_name" data-type="text" data-pk="{{row[7]}}">{{row[7]}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+<script>
+const time = 255 * 2;
+let x = [], y = [], speedX = [], speedY = [];
+let red, green, blue, randomRed, randomGreen, randomBlue, counter, fade;
+ 
+let canvas = document.getElementById('myCanvas');
+let context = canvas.getContext('2d');
+ 
+function reset() {
+  counter = 0;
+  randomRed = Math.random();
+  randomGreen = Math.random();
+  randomBlue = Math.random();
+ 
+  for (let n = 0; n < 5; n++) {
+    x[n] = Math.floor(Math.random() * canvas.width);
+    y[n] = Math.floor(Math.random() * canvas.height);
+    speedX[n] = -2 + Math.random() * 4;
+    speedY[n] = -2 + Math.random() * 4;
+  }
+}
+ 
+function animate() {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+ 
+  fade = Math.abs(time / 2 - counter);
+  for (let n = 0; n < 64; n++) {
+    green = n * 4 + 1;
+    green = Math.max(green - fade, 0);
+    green = green * randomGreen;
+    blue = 255 - n * 4;
+    blue = Math.max(blue - fade, 0);
+    blue = blue * randomBlue;
+    red = Math.max(randomRed * 256 - fade, 0);
+    context.strokeStyle = 'rgba(' + red + ',' + green + ',' + blue + ',1)';
+ 
+    context.beginPath();
+    context.moveTo(x[0], y[0]);
+    context.quadraticCurveTo(x[1], y[1], x[2] + n * 5, y[2] + n * 5);
+    context.quadraticCurveTo(x[3], y[3], x[4] + n * 5, y[4] + n * n);
+    context.quadraticCurveTo(x[1], y[1], x[0], y[0]);
+    context.stroke();
+  }
+  counter++;
+  if (counter == time)
+    reset();
+ 
+  for (let n = 0; n < 5; n++) {
+    x[n] = x[n] + speedX[n];
+    y[n] = y[n] + speedY[n];
+  }
+  window.requestAnimationFrame(animate);
+} 
+ 
+reset();
+window.requestAnimationFrame(animate);
+</script>
+	</div>
+	</body>
